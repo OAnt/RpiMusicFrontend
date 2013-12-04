@@ -1,6 +1,33 @@
 'use strict';
 
-var baseApp = angular.module('baseApp', ['ngRoute', 'myApp',"ngProgress","uiSlider", "ngResource"]);
+var baseApp = angular.module('baseApp', ['ngRoute', 'myApp', "ngProgress","uiSlider", "ngResource"]);
+
+baseApp.service('loginService', function($http){
+    this.connectCallBack = function(){};
+    this.connect = function(connUrl, user, callback) {
+        var name = null;
+        var controllerCallBack = this.connectCallBack;
+        if( user != undefined){
+			$http({withCredentials: true, method: "post", url: connUrl, data: user}).success(function(data) {
+				if(data == "True") {
+                    name = user.name;
+				}
+                callback(name);
+                controllerCallBack();
+			});
+		}
+    };
+    this.disconnectCallBack = function(){};
+    this.disconnect = function(deconnUrl){
+		$http.get(deconnUrl);
+        this.disconnectCallBack();
+    };
+    this.init = function(isConnUrl, callback){
+        $http.get(isConnUrl).success(callback(data));
+    };
+});
+
+
 
 baseApp.config(['$routeProvider', '$locationProvider',
     function($routeProvider, $locationProvider) {
@@ -11,12 +38,16 @@ baseApp.config(['$routeProvider', '$locationProvider',
             when('/pimusic', {
                 templateUrl: 'pimusic/static/index.html',
                 controller: 'SongSelectionCtrl'
+            }).
+            when('/musicshare', {
+                templateUrl: 'musicshare/',
+                controller: 'SongSearchCtrl'
             });
         $locationProvider.html5Mode(true);
     }
 ]);
 
-baseApp.controller('loginController', function($scope, $http) {
+baseApp.controller('loginController', function($scope, $http, loginService) {
     $scope.loginWindow = false;
     $scope.error = null;
     $scope.logged = new Object();
@@ -47,7 +78,7 @@ baseApp.controller('loginController', function($scope, $http) {
     }
 
     $scope.login = function(user) {
-        var name = connect(user, function(name){
+        loginService.connect(baseUrl + 'login/', user, function(name){
             if (name == null) {
                 $scope.error = "Login Error";
             } else {
@@ -61,7 +92,7 @@ baseApp.controller('loginController', function($scope, $http) {
     }
 
     $scope.logout = function() {
-        disconnect();
+        loginService.disconnect(baseUrl + 'logout/');
         $scope.logged.loggedin = false;
         $scope.logged.name = null;
         $scope.error = null;
@@ -69,7 +100,7 @@ baseApp.controller('loginController', function($scope, $http) {
 
     var init = function() {
         $http.get(baseUrl + 'login/').success(function(data){
-            if(data) {
+            if(data != "None") {
                 $scope.logged.loggedin = true;
                 $scope.logged.name = data;
             } else {
@@ -78,7 +109,9 @@ baseApp.controller('loginController', function($scope, $http) {
         });
     };
 
-    init();
+    loginService.init(baseUrl + 'login/');
+    loginService.connectCallBack = function(){};
+    loginService.disconnectCallBack = function(){};
 
 });
 
