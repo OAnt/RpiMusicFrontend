@@ -1,6 +1,6 @@
 'use strict';
 
-var baseApp = angular.module('baseApp', ['ngRoute', 'myApp', "ngProgress","uiSlider", "ngResource"]);
+var baseApp = angular.module('baseApp', ['ngRoute', "ngProgress","uiSlider", "ngResource"]);
 
 baseApp.service('loginService', function($http){
     this.connectCallBack = function(){};
@@ -23,7 +23,7 @@ baseApp.service('loginService', function($http){
         this.disconnectCallBack();
     };
     this.init = function(isConnUrl, callback){
-        $http.get(isConnUrl).success(callback(data));
+        $http.get(isConnUrl).success(callback);
     };
 });
 
@@ -36,7 +36,7 @@ baseApp.config(['$routeProvider', '$locationProvider',
                 templateUrl: '/summary.html'
             }).
             when('/pimusic', {
-                templateUrl: 'pimusic/static/index.html',
+                templateUrl: 'pimusic/',
                 controller: 'SongSelectionCtrl'
             }).
             when('/musicshare', {
@@ -109,7 +109,14 @@ baseApp.controller('loginController', function($scope, $http, loginService) {
         });
     };
 
-    loginService.init(baseUrl + 'login/');
+    loginService.init(baseUrl + 'login/', function(data) {
+        if(data != "None") {
+            $scope.logged.loggedin = true;
+            $scope.logged.name = data;
+        } else {
+            $scope.logged.loggedin = false;
+        }
+    });
     loginService.connectCallBack = function(){};
     loginService.disconnectCallBack = function(){};
 
