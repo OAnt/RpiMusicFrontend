@@ -1,24 +1,82 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en" ng-app="baseApp">
 <head>
-<title> Home Web App Server </title>
-<link rel=stylesheet type=text/css href="/static/css/bootstrap.css"></link>
+    <title> Home Web App Server </title>
+    <script src="/static/angular.min.js"></script>
+    <script src="/static/angular-route.js"></script>
+    <script src="/static/angular-resource.js"></script>
+    <script src="/static/ngProgress.js"></script>
+    <script src="/static/angular-slider.js"></script>
+    <script src="/pimusic/static/app.js"></script>
+    <script src="/static/baseApp.js"></script>
+    <link rel=stylesheet type=text/css href="/static/css/bootstrap.css"></link>
+    <link rel="stylesheet" href="/static/ngProgress.css"></link>
+    <link rel="stylesheet" href="/static/angular-slider.css"></link>
+    <style type="text/css">
+
+    .sidebar-nav{
+        padding: 9px 0;
+    }
+    .scrollbar{
+        overflow: auto;
+        height: auto;
+        max-height: 450px;
+    }
+
+    </style>
 </head>
 
 <body class="jumbotron">
-<div>
-        <h2>Available Apps</h2>
-        <ul>
-            <li>
-                <a href="pimusic/">Pimusic</a>
-                <p>Control a speaker using your Raspberry!!!</p>
-            </li>
-            <li>
-                <a href="musicshare/">MusicShare</a>
-                <p>Stream music from your Raspberry!!!</p>
-            </li>    
-        </ul>
-
+<div class="row">
+	<div class="col-xs-3 col-sm-3 col-md-3">
+		<div  ng-controller="loginController" >
+            <div ng-switch on="logged.loggedin">
+                <div ng-switch-when="true">
+                    <p class="text-muted">logged as: {{logged.name}} <a href="" ng-click="logout()">logout</a></p>
+                </div>
+                <div ng-switch-default>
+                    <a href="" ng-click="showWindow()">login</a>
+                </div>
+            </div>
+            <div ng-switch on="loginWindow" class="span2">
+                <div ng-switch-when="true">
+                    <div ng-show="error">
+                        <p class="text-danger">{{error}}</p>
+                    </div>
+                    <form novalidate>
+                        <input type="text" class="form-control" placeholder="Username" autofocus ng-model="user.name"></br>
+                        <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></br>
+                        <button class="btn btn-primary" ng-click="login(user)">Connect</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="col-xs-3 col-sm-3 col-md-3">
+		<div ng-controller="signinController">
+			<div>
+			<a href="" ng-click="signin()">Sign In</a>
+			</div>
+			<div ng-switch on="signinForm.show">
+				<div ng-switch-when="true">
+					<div ng-switch on="error.bool">
+						<div ng-swith-when="true">
+							<p class="text-danger">{{error.description}}</p>
+						</div>
+					</div>
+					<form novalidate>
+						<input type="text" class="form-control" placeholder="Username" autofocus ng-model="user.name" /><br />
+						<input type="password" class="form-control" placeholder="Password" ng-model="user.password" /><br />
+						<input type="password" class="form-control" placeholder="Password Confirmation" ng-model="user.passwordConf" /><br />
+						<button class="btn btn-primary" ng-click="sign(user)">Sign In</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
+    <div ng-view></div>
+
 </body>
+</html>

@@ -1,22 +1,127 @@
 'use strict';
 
-var myApp = angular.module('baseApp', []);
+var baseApp = angular.module('baseApp', ['ngRoute', 'myApp',"ngProgress","uiSlider", "ngResource"]);
 
-myApp.service('loginService', function(){
-    this.connect = function(user) {
+baseApp.config(['$routeProvider', '$locationProvider',
+    function($routeProvider, $locationProvider) {
+        $routeProvider.
+            when('/', {
+                templateUrl: '/summary.html'
+            }).
+            when('/pimusic', {
+                templateUrl: 'pimusic/static/index.html',
+                controller: 'SongSelectionCtrl'
+            });
+        $locationProvider.html5Mode(true);
+    }
+]);
+
+baseApp.controller('loginController', function($scope, $http) {
+    $scope.loginWindow = false;
+    $scope.error = null;
+    $scope.logged = new Object();
+    $scope.logged.loggedin = false;
+    $scope.logged.name = null;
+    
+    var baseUrl = '/musicshare/';
+    
+    var connect = function(user, callback) {
+        var name = null;
         if( user != undefined){
-			$http({withCredentials: true, method: "post", url: baseUrl + "/login/", data: user}).success(function(data) {
-				if(data == "False") {
-                    return null;
+			$http({withCredentials: true, method: "post", url: baseUrl + "login/", data: user}).success(function(data) {
+				if(data == "True") {
+                    name = user.name;
 				}
-				else {
-                    return user.name;
-				}
+                callback(name);
 			});
 		}
     };
-
-    this.logout = function(){
-		$http.get(baseUrl + '/logout/')
+    
+    var disconnect = function(){
+		$http.get(baseUrl + 'logout/');
     }
-}
+
+    $scope.showWindow = function() {
+        $scope.loginWindow =!($scope.loginWindow);
+        $scope.error = null;
+    }
+
+    $scope.login = function(user) {
+        var name = connect(user, function(name){
+            if (name == null) {
+                $scope.error = "Login Error";
+            } else {
+                $scope.loginWindow = false;
+                $scope.logged.loggedin = true;
+                $scope.error = null;
+            }
+            $scope.logged.name = name;
+            user = null;
+        });
+    }
+
+    $scope.logout = function() {
+        disconnect();
+        $scope.logged.loggedin = false;
+        $scope.logged.name = null;
+        $scope.error = null;
+    }
+
+    var init = function() {
+        $http.get(baseUrl + 'login/').success(function(data){
+            if(data) {
+                $scope.logged.loggedin = true;
+                $scope.logged.name = data;
+            } else {
+                $scope.logged.loggedin = false;
+            }
+        });
+    };
+
+    init();
+
+});
+
+baseApp.controller('signinController', function($scope, $http) {
+	$scope.signinForm = new Object();
+	$scope.signinForm.show = "false";
+	$scope.error = new Object();
+	$scope.error.bool = false;
+	
+        var baseUrl = "/musicshare/";
+	$scope.signin = function() {
+		if ($scope.signinForm.show) {
+			$scope.signinForm.show = false;
+		} else {
+			$scope.signinForm.show = true;
+		}
+	};
+	
+	$scope.sign = function(user) {
+			if (user != undefined && user.name != undefined && user.password != undefined && user.password == user.passwordConf){
+				var userData = new Object();
+				userData.name = user.name;
+				userData.password = user.password;
+				$http({withCredentials: true, method: "post", url: baseUrl + "/signin/", data: userData}).success(function(data) {
+					if (data == "true") {
+						$scope.error.bool = false;
+						$scope.signinForm.show = "false";
+						var msg = user.name + " successfully registered";
+						window.alert(msg);
+						user.name = "";
+						user.password = "";
+						user.passwordConf = "";
+					} else {
+						$scope.error.bool = true;
+						$scope.error.description = "User already exists";
+						user.name = "";
+						user.password = "";
+						user.passwordConf = "";
+					}
+				});
+			} else {
+				$scope.error.bool = true;
+				$scope.error.description = "Identification error";
+			}
+	};
+});
