@@ -126,7 +126,7 @@ baseApp.controller('loginController', function($scope, $http, loginService) {
         });
     };
 
-    loginService.init(baseUrl + 'login/', function(data) {
+    loginService.init(baseUrl + 'login', function(data) {
         if(data != "None") {
             $scope.logged.loggedin = true;
             $scope.logged.name = data;
@@ -142,8 +142,7 @@ baseApp.controller('loginController', function($scope, $http, loginService) {
 baseApp.controller('signinController', function($scope, $http) {
 	$scope.signinForm = new Object();
 	$scope.signinForm.show = "false";
-	$scope.error = new Object();
-	$scope.error.bool = false;
+    $scope.error = null;
 	
         var baseUrl = "/musicshare/";
 	$scope.signin = function() {
@@ -161,7 +160,7 @@ baseApp.controller('signinController', function($scope, $http) {
 				userData.password = user.password;
 				$http({withCredentials: true, method: "post", url: baseUrl + "/signin/", data: userData}).success(function(data) {
 					if (data == "true") {
-						$scope.error.bool = false;
+						$scope.error = null;
 						$scope.signinForm.show = "false";
 						var msg = user.name + " successfully registered";
 						window.alert(msg);
@@ -169,16 +168,14 @@ baseApp.controller('signinController', function($scope, $http) {
 						user.password = "";
 						user.passwordConf = "";
 					} else {
-						$scope.error.bool = true;
-						$scope.error.description = "User already exists";
+						$scope.error = "User already exists";
 						user.name = "";
 						user.password = "";
 						user.passwordConf = "";
 					}
 				});
 			} else {
-				$scope.error.bool = true;
-				$scope.error.description = "Identification error";
+				$scope.error = "Identification error";
 			}
 	};
 });
