@@ -24,30 +24,47 @@
         height: auto;
         max-height: 450px;
     }
-    .uglylist{
-        list-style-type: none;
-    }
-
     </style>
 </head>
 
 <body>
-<div class="container row">
-	<div class="col-xs-3 col-sm-3 col-md-3">
-		<div  ng-controller="loginController" >
-            <ul ng-switch on="logged.loggedin" class="uglylist">
-                <li ng-switch-when="true" class="text-muted">logged as: {{logged.name}} <a href="" ng-click="logout()">logout</a>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+         <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li ng-controller="loginController" >
+                    <div ng-switch on="logged.loggedin">
+                        <p ng-switch-when="true" class="text-muted">logged as: {{logged.name}} <a href="" ng-click="logout()">logout</a>
+                        </p>
+                        <div ng-switch-default>
+                            <my-dropdown type="Login">
+                                <ul>
+                                    <li ng-show="error" class="text-danger">{{error}}</li>
+                                    <li>
+                                    <form novalidate>
+                                        <input type="text" class="form-control" placeholder="Username" ng-model="user.name">
+                                        <input type="password" class="form-control" placeholder="Password" ng-model="user.password">
+                                        <button class="btn btn-primary" ng-click="login(user)">Connect</button>
+                                    </form>
+                                    </li>
+                                </ul>
+                            </my-dropdown>
+                        </div>
+                    </div>
                 </li>
-                <li ng-switch-default>
-                    <my-dropdown type="Login">
+            </ul>
+            <ul  class="nav navbar-nav navbar-right">
+                <li ng-controller="signinController">
+                    <my-dropdown type="Sign In">
                         <ul>
                             <li ng-show="error" class="text-danger">{{error}}</li>
                             <li>
-                            <form novalidate>
-                                <input type="text" class="form-control" placeholder="Username" ng-model="user.name">
-                                <input type="password" class="form-control" placeholder="Password" ng-model="user.password">
-                                <button class="btn btn-primary" ng-click="login(user)">Connect</button>
-                            </form>
+                                <form novalidate>
+                                    <input type="text" class="form-control" placeholder="Username" autofocus ng-model="user.name" />
+                                    <input type="password" class="form-control" placeholder="Password" ng-model="user.password" />
+                                    <input type="password" class="form-control" placeholder="Password Confirmation" ng-model="user.passwordConf" />
+                                    <button class="btn btn-primary" ng-click="sign(user)">Sign In</button>
+                                </form>
                             </li>
                         </ul>
                     </my-dropdown>
@@ -55,25 +72,6 @@
             </ul>
         </div>
     </div>
-	<div class="col-xs-3 col-sm-3 col-md-3">
-		<ul ng-controller="signinController" class="uglylist">
-			<li>
-                <my-dropdown type="Sign In">
-                    <ul>
-                        <li ng-show="error" class="text-danger">{{error}}</li>
-                        <li>
-                            <form novalidate>
-                                <input type="text" class="form-control" placeholder="Username" autofocus ng-model="user.name" />
-                                <input type="password" class="form-control" placeholder="Password" ng-model="user.password" />
-                                <input type="password" class="form-control" placeholder="Password Confirmation" ng-model="user.passwordConf" />
-                                <button class="btn btn-primary" ng-click="sign(user)">Sign In</button>
-                            </form>
-                        </li>
-                    </ul>
-                </my-dropdown>
-			</li>
-		</ul>
-	</div>
 </div>
 
     <div ng-view class="jumbotron"></div>

@@ -126,7 +126,7 @@ baseApp.controller('loginController', function($scope, $http, loginService) {
         });
     };
 
-    loginService.init(baseUrl + 'login', function(data) {
+    loginService.init(baseUrl + 'login/', function(data) {
         if(data != "None") {
             $scope.logged.loggedin = true;
             $scope.logged.name = data;
