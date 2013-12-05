@@ -2,6 +2,23 @@
 
 var baseApp = angular.module('baseApp', ['ngRoute', "ngProgress","uiSlider", "ngResource"]);
 
+baseApp.directive('myDropdown', function() {
+    return {
+        restrict: 'E',
+        transclude: true,
+        scope: {
+            type: '@'
+        },
+        controller: function($scope) {
+            $scope.show = false;
+            $scope.showDropdown = function() {
+                $scope.show = !$scope.show;
+            };
+        },
+        templateUrl: '/static/my-dropdown.html'
+    };
+});
+
 baseApp.service('loginService', function($http){
     this.connectCallBack = function(){};
     this.connect = function(connUrl, user, callback) {

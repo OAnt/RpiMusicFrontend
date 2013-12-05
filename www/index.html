@@ -10,6 +10,7 @@
     <script src="/static/baseApp.js"></script>
     <script src="/musicshare/static/controller.js"></script>
     <script src="/pimusic/static/app.js"></script>
+    <link rel=stylesheet type=text/css href="/static/dropdown.css"></link>
     <link rel=stylesheet type=text/css href="/static/css/bootstrap.css"></link>
     <link rel="stylesheet" href="/static/ngProgress.css"></link>
     <link rel="stylesheet" href="/static/angular-slider.css"></link>
@@ -36,19 +37,16 @@
                     <p class="text-muted">logged as: {{logged.name}} <a href="" ng-click="logout()">logout</a></p>
                 </div>
                 <div ng-switch-default>
-                    <a href="" ng-click="showWindow()">login</a>
-                </div>
-            </div>
-            <div ng-switch on="loginWindow" class="span2">
-                <div ng-switch-when="true">
-                    <div ng-show="error">
-                        <p class="text-danger">{{error}}</p>
-                    </div>
-                    <form novalidate>
-                        <input type="text" class="form-control" placeholder="Username" autofocus ng-model="user.name"></br>
-                        <input type="password" class="form-control" placeholder="Password" ng-model="user.password"></br>
-                        <button class="btn btn-primary" ng-click="login(user)">Connect</button>
-                    </form>
+                    <my-dropdown type="login">
+                        <li ng-show="error" class="text-danger">{{error}}</li>
+                        <li>
+                        <form novalidate>
+                            <input type="text" class="form-control" placeholder="Username" ng-model="user.name">
+                            <input type="password" class="form-control" placeholder="Password" ng-model="user.password">
+                            <button class="btn btn-primary" ng-click="login(user)">Connect</button>
+                        </form>
+                        </li>
+                    </my-dropdown>
                 </div>
             </div>
         </div>
