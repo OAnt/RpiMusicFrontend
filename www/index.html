@@ -1,19 +1,18 @@
 <!doctype html>
 <html lang="en" ng-app="baseApp">
 <head>
+    <meta charset="utf-8">
     <title> Home Web App Server </title>
+    <link rel=stylesheet type=text/css href="/static/dropdown.css"></link>
+    <link rel=stylesheet type=text/css href="/static/css/bootstrap.min.css"></link>
+    <link rel="stylesheet" href="/static/ngProgress.css"></link>
+    <link rel="stylesheet" href="/static/angular-slider.css"></link>
     <script src="/static/angular.min.js"></script>
-    <script src="/static/angular-route.js"></script>
-    <script src="/static/angular-resource.js"></script>
+    <script src="/static/angular-route.min.js"></script>
+    <script src="/static/angular-resource.min.js"></script>
     <script src="/static/ngProgress.js"></script>
     <script src="/static/angular-slider.js"></script>
     <script src="/static/baseApp.js"></script>
-    <script src="/musicshare/static/controller.js"></script>
-    <script src="/pimusic/static/app.js"></script>
-    <link rel=stylesheet type=text/css href="/static/dropdown.css"></link>
-    <link rel=stylesheet type=text/css href="/static/css/bootstrap.css"></link>
-    <link rel="stylesheet" href="/static/ngProgress.css"></link>
-    <link rel="stylesheet" href="/static/angular-slider.css"></link>
     <style type="text/css">
 
     .sidebar-nav{
@@ -32,11 +31,15 @@
     .mymenusize p{
         padding: 15px;
     }
+
+    body {
+        padding-top: 90px;
+    }
     </style>
 </head>
 
-<body>
-<div class="navbar navbar-default navbar-fixed-top">
+<body style>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav mymenusize" ng-controller="loginController" ng-switch on="logged.loggedin">
@@ -60,6 +63,9 @@
             <li>
                 <my-dropdown type="Available Apps">
                     <ul>
+                        <li>
+                            <a href="/">Main menu</a>
+                        </li>    
                         <li>
                             <a href="/pimusic/">Pimusic</a>
                         </li>
@@ -91,7 +97,8 @@
     </div>
 </div>
 
+<div class="container">
     <div ng-view class="jumbotron"></div>
-
+</div>
 </body>
 </html>
