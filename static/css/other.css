@@ -1,3 +1,59 @@
+/* Styling for my-dropdown directive */
+.mydropdown{
+    position: relative;
+    padding: 15px;
+}
+.mydropdown-ext{
+    position: absolute;
+    overflow: auto;
+    background: #fff;
+    padding: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: Silver;
+    z-index: 100;
+}
+.mydropdown ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.mydropdown li{
+    margin: 0;
+}
+.mydropdown input{
+    margin-bottom: 5px;
+}
+
+/* Styling for the ngProgress itself */
+#ngProgress {
+    margin: 0;
+    padding: 0;
+    z-index: 99998;
+    background-color: green;
+    color: green;
+    box-shadow: 0 0 10px 0; /* Inherits the font color */
+    height: 2px;
+    opacity: 0;
+
+    /* Add CSS3 styles for transition smoothing */
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Styling for the ngProgress-container */
+#ngProgress-container {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+}
+/* Styling for angular-slider */
 slider {
   display: inline-block;
   position: relative;
@@ -84,3 +140,27 @@ slider span.bubble.selection {
 slider span.bubble.limit {
   color: #808080;
 }
+/* main page styling */
+    .sidebar-nav{
+        padding: 9px 0;
+    }
+    .scrollbar{
+        overflow: auto;
+        height: auto;
+        max-height: 450px;
+    }
+    .mymenusize li{
+        width: 200px;
+        vertical-align: middle;
+        display: block;
+    }
+    .mymenusize p{
+        padding: 15px;
+    }
+
+    body {
+        padding-top: 90px;
+    }
+    .searchsong input{
+        margin-top: 5px;
+    }

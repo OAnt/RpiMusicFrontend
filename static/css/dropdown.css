@@ -1,0 +1,25 @@
+.mydropdown{
+    position: relative;
+    padding: 15px;
+}
+.mydropdown-ext{
+    position: absolute;
+    overflow: auto;
+    background: #fff;
+    padding: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: Silver;
+    z-index: 100;
+}
+.mydropdown ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.mydropdown li{
+    margin: 0;
+}
+.mydropdown input{
+    margin-bottom: 5px;
+}

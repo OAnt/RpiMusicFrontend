@@ -1,0 +1,1 @@
+/home/pi/data/static/js/ngProgress.js /home/pi/data/static/js/angular-slider.js /home/pi/data/static/*.js /home/pi/projects/MusicShare/static/*.js /home/pi/projects/RpiMusic/static/*.js
