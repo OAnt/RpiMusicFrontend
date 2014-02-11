@@ -3,3 +3,5 @@ bootstrap*
 ngProgress*
 glyphicons*
 *.min.*
+*.swp
+
